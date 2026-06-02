@@ -20,7 +20,7 @@ class KpiDetailScreen extends StatelessWidget {
   });
 
   Future<void> _descargarReporte(BuildContext context) async {
-    final url = Uri.parse('https://google.com/search?q=reporte+kpi=$kpiId&estado=$estado&anio=$anio&trimestre=$trimestre');
+    final url = Uri.parse('https://[ngrok]/api/v1/reportes/generar?kpi=$kpiId&estado=$estado&anio=$anio&trimestre=$trimestre');
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Simulación: Solicitando PDF al servidor...')));
     }
