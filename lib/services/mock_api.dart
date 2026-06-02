@@ -2,7 +2,17 @@ import 'dart:convert';
 
 class MockApi {
   // Endpoint 1: Saturación
-  static Map<String, dynamic> getSaturacion() {
+  static Map<String, dynamic> getSaturacion({
+    String? estado,
+    String? anio,
+    String? trimestre,
+  }) {
+
+    final url =
+        '/saturacion?estado=$estado&anio=$anio&trimestre=$trimestre';
+
+    print(url);
+
     const String response = '''
     {
       "status": "success",
@@ -16,7 +26,17 @@ class MockApi {
   }
 
   // Endpoint 2: Tendencia Histórica
-  static Map<String, dynamic> getTendencia() {
+  static Map<String, dynamic> getTendencia({
+    String? estado,
+    String? anio,
+    String? trimestre,
+  }) {
+
+    final url =
+        '/tendencia?estado=$estado&anio=$anio&trimestre=$trimestre';
+
+    print(url);
+
     const String response = '''
     {
       "status": "success",
@@ -30,7 +50,17 @@ class MockApi {
   }
 
   // Endpoint 3: Proporción
-  static Map<String, dynamic> getProporcion() {
+  static Map<String, dynamic> getProporcion({
+    String? estado,
+    String? anio,
+    String? trimestre,
+  }) {
+
+    final url =
+        '/proporcion?estado=$estado&anio=$anio&trimestre=$trimestre';
+
+    print(url);
+
     const String response = '''
     {
       "status": "success",
@@ -41,5 +71,21 @@ class MockApi {
     }
     ''';
     return jsonDecode(response);
+  }
+
+  static List<String> getEstados() {
+
+    final data = getSaturacion();
+
+    final estados = data['data']
+        .map<String>((item) => item['estado'].toString())
+        .toSet()
+        .toList();
+
+    estados.sort();
+
+    estados.insert(0, 'Nacional');
+
+    return estados;
   }
 }
