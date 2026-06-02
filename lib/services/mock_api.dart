@@ -1,18 +1,9 @@
 import 'dart:convert';
 
 class MockApi {
-  // Endpoint 1: Saturación
-  static Map<String, dynamic> getSaturacion({
-    String? estado,
-    String? anio,
-    String? trimestre,
-  }) {
-
-    final url =
-        '/saturacion?estado=$estado&anio=$anio&trimestre=$trimestre';
-
-    print(url);
-
+  static Map<String, dynamic> getSaturacion({String? estado, String? anio, String? trimestre}) {
+    final url = '/saturacion?estado=$estado&anio=$anio&trimestre=$trimestre';
+    print("GET: $url");
     const String response = '''
     {
       "status": "success",
@@ -25,18 +16,7 @@ class MockApi {
     return jsonDecode(response);
   }
 
-  // Endpoint 2: Tendencia Histórica
-  static Map<String, dynamic> getTendencia({
-    String? estado,
-    String? anio,
-    String? trimestre,
-  }) {
-
-    final url =
-        '/tendencia?estado=$estado&anio=$anio&trimestre=$trimestre';
-
-    print(url);
-
+  static Map<String, dynamic> getTendencia({String? estado, String? anio, String? trimestre}) {
     const String response = '''
     {
       "status": "success",
@@ -49,18 +29,7 @@ class MockApi {
     return jsonDecode(response);
   }
 
-  // Endpoint 3: Proporción
-  static Map<String, dynamic> getProporcion({
-    String? estado,
-    String? anio,
-    String? trimestre,
-  }) {
-
-    final url =
-        '/proporcion?estado=$estado&anio=$anio&trimestre=$trimestre';
-
-    print(url);
-
+  static Map<String, dynamic> getProporcion({String? estado, String? anio, String? trimestre}) {
     const String response = '''
     {
       "status": "success",
@@ -73,19 +42,44 @@ class MockApi {
     return jsonDecode(response);
   }
 
+  static Map<String, dynamic> getComparativa({String? estado, String? anio, String? trimestre}) {
+    const String response = '''
+    {
+      "status": "success",
+      "data": {
+        "kpi": "Crecimiento Interanual",
+        "estado": "Nacional",
+        "anioActual": 2024,
+        "totalActual": 6061,
+        "anioAnterior": 2023,
+        "totalAnterior": 5800,
+        "tendencia": "ALZA",
+        "porcentajeCambio": 4.5
+      }
+    }
+    ''';
+    return jsonDecode(response);
+  }
+
+  static Map<String, dynamic> getDiasCriticos({String? estado, String? anio, String? trimestre}) {
+    const String response = '''
+    {
+      "status": "success",
+      "data": [
+        { "dia": "Lunes", "totalEmergencias": 850 },
+        { "dia": "Martes", "totalEmergencias": 720 },
+        { "dia": "Miércoles", "totalEmergencias": 710 },
+        { "dia": "Jueves", "totalEmergencias": 890 },
+        { "dia": "Viernes", "totalEmergencias": 1200 },
+        { "dia": "Sábado", "totalEmergencias": 1500 },
+        { "dia": "Domingo", "totalEmergencias": 1400 }
+      ]
+    }
+    ''';
+    return jsonDecode(response);
+  }
+
   static List<String> getEstados() {
-
-    final data = getSaturacion();
-
-    final estados = data['data']
-        .map<String>((item) => item['estado'].toString())
-        .toSet()
-        .toList();
-
-    estados.sort();
-
-    estados.insert(0, 'Nacional');
-
-    return estados;
+    return ['Nacional', 'Ciudad de Mexico', 'Jalisco', 'Nuevo León', 'Chihuahua'];
   }
 }

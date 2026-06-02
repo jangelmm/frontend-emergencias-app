@@ -1,66 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../screens/kpi/kpi_detail_screen.dart';
+import '../kpi/kpi_detail_screen.dart';
 
 class Kpi5Chart extends StatelessWidget {
-  final List<dynamic> data;
+  final Map<String, dynamic> data;
+  final String estado, anio, trimestre;
+  final bool isDetail;
 
-  const Kpi5Chart({super.key, required this.data});
+  const Kpi5Chart({super.key, required this.data, required this.estado, required this.anio, required this.trimestre, this.isDetail = false});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) =>
-                const KpiDetailScreen(title: "KPI 5: Días críticos", kpiId: 5),
-          ),
-        );
-      },
-      child: SizedBox(
-        height: 200,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _title(),
-            Expanded(
-              child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.spaceAround,
-                  barGroups: data.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final item = entry.value;
+    final items = data['data'] as List<dynamic>? ?? [];
+    Widget chart = SizedBox(
+      height: isDetail ? double.infinity : 200,
+      child: BarChart(BarChartData(
+        alignment: BarChartAlignment.spaceAround,
+        barGroups: items.asMap().entries.map((e) => BarChartGroupData(x: e.key, barRods: [BarChartRodData(toY: (e.value['totalEmergencias'] as num).toDouble(), color: Colors.indigo, width: 15)])).toList(),
+        titlesData: FlTitlesData(bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, getTitlesWidget: (v, m) => Text(items[v.toInt()]['dia'].toString().substring(0,3))))),
+      )),
+    );
 
-                    return BarChartGroupData(
-                      x: index,
-                      barRods: [
-                        BarChartRodData(
-                          toY: item["totalEmergencias"].toDouble(),
-                          width: 15,
-                          color: Colors.blue,
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    if (isDetail) return chart;
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => KpiDetailScreen(title: "KPI 5: Días Críticos", kpiId: 5, data: data, estado: estado, anio: anio, trimestre: trimestre))),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('KPI 5: Mapa Operativo (Días)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)), const SizedBox(height: 10), chart]),
     );
   }
-}
-
-Widget _title() {
-  return const Padding(
-    padding: EdgeInsets.only(bottom: 16),
-    child: Text(
-      'KPI 5: Dias criticos',
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-  );
 }
