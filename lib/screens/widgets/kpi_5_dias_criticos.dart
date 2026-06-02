@@ -10,15 +10,22 @@ class Kpi5Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) =>
+                const KpiDetailScreen(title: "KPI 5: Días críticos", kpiId: 5),
+          ),
+        );
+      },
       child: SizedBox(
         height: 200,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _title(), // 👈 aquí lo usas
-
+            _title(),
             Expanded(
               child: BarChart(
                 BarChartData(
@@ -38,21 +45,6 @@ class Kpi5Chart extends StatelessWidget {
                       ],
                     );
                   }).toList(),
-
-                  titlesData: FlTitlesData(
-                    leftTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          final dia = data[value.toInt()]["dia"];
-                          return Text(dia.substring(0, 3));
-                        },
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -61,14 +53,14 @@ class Kpi5Chart extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _title() {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 16),
-      child: Text(
-        'KPI 5: Dias criticos',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
+Widget _title() {
+  return const Padding(
+    padding: EdgeInsets.only(bottom: 16),
+    child: Text(
+      'KPI 5: Dias criticos',
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  );
 }

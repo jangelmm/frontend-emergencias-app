@@ -25,8 +25,9 @@ class DashboardScreen extends StatelessWidget {
         const Kpi3Proporcion(),
         const SizedBox(height: 20),
 
-        //Kpi4Card(data: kpi4),
-        //const SizedBox(height: 20),
+        Kpi4Card(data: kpi4),
+        const SizedBox(height: 20),
+
         Kpi5Chart(data: kpi5),
         const SizedBox(height: 20),
       ],

@@ -8,15 +8,28 @@ class Kpi4Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUp = data["tendencia"] == "ALZA";
+    final String kpi = (data["kpi"] ?? "").toString();
+    final String estado = (data["estado"] ?? "").toString();
+
+    final int anioActual = (data["anioActual"] ?? 0);
+    final int totalActual = (data["totalActual"] ?? 0);
+    final int anioAnterior = (data["anioAnterior"] ?? 0);
+    final int totalAnterior = (data["totalAnterior"] ?? 0);
+
+    final double porcentaje =
+        (data["porcentajeCambio"] as num?)?.toDouble() ?? 0.0;
+
+    final bool isUp = data["tendencia"] == "ALZA";
 
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) =>
-                const KpiDetailScreen(title: "KPI 1: Saturación", kpiId: 1),
+            builder: (_) => KpiDetailScreen(
+              title: kpi,
+              kpiId: 4, // 🔥 FIX IMPORTANTE: no uses data["kpiId"] si no existe
+            ),
           ),
         );
       },
@@ -24,17 +37,15 @@ class Kpi4Card extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            data["kpi"],
+            kpi,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
 
           const SizedBox(height: 10),
 
-          Text("Estado: ${data["estado"]}"),
-          Text("Año actual: ${data["anioActual"]} → ${data["totalActual"]}"),
-          Text(
-            "Año anterior: ${data["anioAnterior"]} → ${data["totalAnterior"]}",
-          ),
+          Text("Estado: $estado"),
+          Text("Año actual: $anioActual → $totalActual"),
+          Text("Año anterior: $anioAnterior → $totalAnterior"),
 
           const SizedBox(height: 15),
 
@@ -47,7 +58,7 @@ class Kpi4Card extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "${data["porcentajeCambio"]}%",
+                "$porcentaje%",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
