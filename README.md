@@ -7,7 +7,7 @@
 [![TecNM](https://img.shields.io/badge/TecNM-Proyecto%20Institucional-1B396A?style=flat-square)](https://www.tecnm.mx/)
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-1B5233?style=flat-square)](LICENSE)
 
-## Equipo de Desarrollo: DEC Spark
+## Equipo de Desarrollo:
 
 Este proyecto es el resultado del trabajo conjunto del equipo de desarrollo, compuesto por especialistas en frontend y backend.
 
